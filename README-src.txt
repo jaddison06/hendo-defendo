@@ -1,3 +1,5 @@
+i included this file when i distributed the source code because it makes me feel important
+
 Hendo Defendo: an Etonian take on whack-a-mole.
 
 Please don't use a trackpad :)
