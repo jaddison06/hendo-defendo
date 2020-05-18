@@ -19,13 +19,16 @@ import random
 from PIL import Image, ImageTk
 import os
 import os.path as path
+# termcolor barely gets used
+# and doesn't work on windows
+# but here it is anyway
 from termcolor import colored
 
 
-# mAiN cLaSs
+# main class
 class Game():
     def __init__(self):
-        # constants n dat
+        # constants
         self.debug = False
         self.IMAGE_PREFIX = None
         self.GRID_SIZE = 4
@@ -78,6 +81,7 @@ class Game():
             print('Discovered '+str(len(self.hendo_images))+' images of Hendo.')
 
 
+        # configure window
         self.window.title('Hendo Defendo')
         self.icon_path = self.IMAGE_PREFIX + self.icon_file
         self.icon_img = ImageTk.PhotoImage(Image.open(self.icon_path))
@@ -97,7 +101,7 @@ class Game():
 
         self.msg('Initialized.')
 
-    # print if debug=True
+    # print if debugging
     def msg(self,msg):
         if self.debug:
             print(msg)
@@ -132,7 +136,7 @@ class Game():
         return hendos_frame, info_frame
 
     # thought there were only gonna be a couple of these so each got their own function,
-    # on balance i should've defined one function to generate a PhotoImage from a given file path,
+    # in hindsight i should've defined one function to generate a PhotoImage from a given file path,
     # appending it to self.image_objects etc etc
 
     # generate a PIL.ImageTk.PhotoImage of Hendo from our hendo_images list
@@ -249,6 +253,7 @@ class Game():
         self.help_btn['command'] = self.help
 
     # callback when a hendo label is clicked
+    # the label passes some data back in the event param
     def hendo_hit(self, event):
         self.msg(random.choice(['boop','wack','pew','slap','ouchie']))
         if self.game_running:
@@ -426,8 +431,12 @@ class Game():
 
     # lose a game
     def lose(self):
-        self.hit_count['text'] = '-69'
-        self.miss_count['text'] = '-69'
+        self.hit_count['text'] = '0'
+        self.miss_count['text'] = '0'
+        # instead of changing text,
+        # we leave it as white text on a
+        # white bg and change it to black
+        # when we want to display the text
         self.loss_label['bg'] = 'black'
         self.start()
 
@@ -452,8 +461,8 @@ before you click it, you've missed.
 If you click a non-hendo square,
 you've also missed.
 
-Be warned - if the whole grid fills up with Hendos you lose
-the game!
+Be warned - if the whole grid fills up
+with Hendos you lose the game!
 
 Special items:
 Hit a Harrow Boater for 10 points!
@@ -464,15 +473,17 @@ If you hit a Boris, you lose.
 
 
 # mainloop, tried to add a bit of error handling but it's really
-# ugly becasue messagebox initializes a new Tk window as well as the
+# ugly becasue messagebox initializes a new, empty Tk window as well as the
 # error window
 def main():
     try:
         game = Game()
         game.window.mainloop()
     except Exception as e:
+        # don't actually tell the user anything, but
+        # reraise so the debugger can check it out
         messagebox.showerror('Error','An error occured.')
-        raise e
+        raise
 
 if __name__ == '__main__':
     main()
