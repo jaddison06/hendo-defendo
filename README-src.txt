@@ -1,3 +1,5 @@
+wrote this when i sent someone the code, might be useful idk
+
 Hendo Defendo: an Etonian take on whack-a-mole.
 
 Please don't use a trackpad :)
